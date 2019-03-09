@@ -1425,20 +1425,20 @@ def main():
     
 
     board = []
-    tmplist = []
     for i in range(1000):
-        tmplist.append(0)
+        board.append([])
     for i in range(1000):
-        board.append(tmplist)
+        for j in range(1000):
+            board[i].append(0)
     
     for i in range(len(dim)):
-        llowbnd = int(lcoord[i][0])+1
+        llowbnd = int(lcoord[i][0])
         lupbnd =  llowbnd + int(dim[i][0])
-        hlowbnd = 1000-int(lcoord[i][1])
-        hupbnd =  hlowbnd - int(dim[i][1])
+        hlowbnd = int(lcoord[i][1])
+        hupbnd =  hlowbnd + int(dim[i][1])
         for x in range(llowbnd, lupbnd):
-            for y in range(hupbnd, hlowbnd):
-                board[y][x] += 1
+            for y in range(hlowbnd, hupbnd):
+                board[x][y] += 1
 
     tot = 0
     for i in board:
@@ -1447,4 +1447,20 @@ def main():
                 tot += 1
     
     print("Claim Overlap: ", tot)
-    #print(board)
+    
+    for i in range(len(dim)):
+        testCondition = True
+        llowbnd = int(lcoord[i][0])
+        lupbnd =  llowbnd + int(dim[i][0])
+        hlowbnd = int(lcoord[i][1])
+        hupbnd =  hlowbnd + int(dim[i][1])
+        for x in range(llowbnd, lupbnd):
+            for y in range(hlowbnd, hupbnd):
+                if not (board[x][y] == 1):
+                    testCondition = False
+        if testCondition == True:
+            goodId = i+1
+            break
+    
+    print("Non-overlap ID: ", goodId)
+
